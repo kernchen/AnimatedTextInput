@@ -1,7 +1,6 @@
 import UIKit
 
-public struct AnimatedTextInputFieldConfigurator {
-    
+public enum AnimatedTextInputFieldConfigurator {
     public enum AnimatedTextInputType {
         case standard
         case email
@@ -20,7 +19,7 @@ public struct AnimatedTextInputFieldConfigurator {
             return AnimatedTextInputTextConfigurator.generate()
         case .email:
             return AnimatedTextInputEmailConfigurator.generate()
-        case .password (let toggleable):
+        case .password(let toggleable):
             return AnimatedTextInputPasswordConfigurator.generate(toggleable: toggleable)
         case .numeric:
             return AnimatedTextInputNumericConfigurator.generate()
@@ -38,30 +37,41 @@ public struct AnimatedTextInputFieldConfigurator {
     }
 }
 
-fileprivate struct AnimatedTextInputTextConfigurator {
-    
+private enum AnimatedTextInputTextConfigurator {
     static func generate() -> TextInput {
         let textField = AnimatedTextField()
         textField.clearButtonMode = .whileEditing
         textField.autocorrectionType = .no
+        
+        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+            let templateImage = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+            clearButton.setImage(templateImage, for: .normal)
+            clearButton.tintColor = .white
+        }
+        
         return textField
     }
 }
 
-fileprivate struct AnimatedTextInputEmailConfigurator {
-    
+private enum AnimatedTextInputEmailConfigurator {
     static func generate() -> TextInput {
         let textField = AnimatedTextField()
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .emailAddress
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
+        
+        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+            let templateImage = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+            clearButton.setImage(templateImage, for: .normal)
+            clearButton.tintColor = .white
+        }
+        
         return textField
     }
 }
 
-fileprivate struct AnimatedTextInputPasswordConfigurator {
-    
+private enum AnimatedTextInputPasswordConfigurator {
     static func generate(toggleable: Bool) -> TextInput {
         let textField = AnimatedTextField()
         textField.rightViewMode = .whileEditing
@@ -86,30 +96,41 @@ fileprivate struct AnimatedTextInputPasswordConfigurator {
     }
 }
 
-fileprivate struct AnimatedTextInputNumericConfigurator {
-    
+private enum AnimatedTextInputNumericConfigurator {
     static func generate() -> TextInput {
         let textField = AnimatedTextField()
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .decimalPad
         textField.autocorrectionType = .no
+        
+        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+            let templateImage = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+            clearButton.setImage(templateImage, for: .normal)
+            clearButton.tintColor = .white
+        }
+        
         return textField
     }
 }
 
-fileprivate struct AnimatedTextInputPhoneConfigurator {
-    
+private enum AnimatedTextInputPhoneConfigurator {
     static func generate() -> TextInput {
         let textField = AnimatedTextField()
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .phonePad
         textField.autocorrectionType = .no
+        
+        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+            let templateImage = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+            clearButton.setImage(templateImage, for: .normal)
+            clearButton.tintColor = .white
+        }
+        
         return textField
     }
 }
 
-fileprivate struct AnimatedTextInputSelectionConfigurator {
-    
+private enum AnimatedTextInputSelectionConfigurator {
     static func generate() -> TextInput {
         let textField = AnimatedTextField()
         let bundle = Bundle(path: Bundle(for: AnimatedTextInput.self).path(forResource: "AnimatedTextInput", ofType: "bundle")!)
@@ -121,8 +142,7 @@ fileprivate struct AnimatedTextInputSelectionConfigurator {
     }
 }
 
-fileprivate struct AnimatedTextInputCustomSelectionConfigurator {
-    
+private enum AnimatedTextInputCustomSelectionConfigurator {
     static func generate(isRightViewEnabled: Bool = true, rightViewImage: UIImage? = nil) -> TextInput {
         let textField = AnimatedTextField()
         if isRightViewEnabled && rightViewImage != nil {
@@ -135,9 +155,7 @@ fileprivate struct AnimatedTextInputCustomSelectionConfigurator {
     }
 }
 
-
-fileprivate struct AnimatedTextInputMultilineConfigurator {
-    
+private enum AnimatedTextInputMultilineConfigurator {
     static func generate() -> TextInput {
         let textView = AnimatedTextView()
         textView.textContainerInset = .zero
