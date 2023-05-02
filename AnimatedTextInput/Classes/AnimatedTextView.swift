@@ -5,15 +5,15 @@ final public class AnimatedTextView: UITextView {
     public var textAttributes: [NSAttributedString.Key: Any]? {
         didSet {
             guard let attributes = textAttributes else { return }
-            typingAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value) })
+//            typingAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value) })
         }
     }
 
     public override var font: UIFont? {
         didSet {
             var attributes = typingAttributes
-            attributes[NSAttributedString.Key.font] = font
-            textAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value)})
+            attributes[NSAttributedString.Key.font.rawValue] = font
+//            textAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value)})
         }
     }
 
