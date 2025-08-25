@@ -12,7 +12,12 @@ final public class AnimatedTextView: UITextView {
     public override var font: UIFont? {
         didSet {
             var attributes = typingAttributes
-            attributes[NSAttributedString.Key.font.rawValue] = font
+            if let f = font {
+                attributes[.font] = f
+            } else {
+                attributes.removeValue(forKey: .font)
+            }
+            typingAttributes = attributes
 //            textAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value)})
         }
     }

@@ -1,6 +1,6 @@
 import UIKit
 
-@objc public protocol AnimatedTextInputDelegate: class {
+@objc public protocol AnimatedTextInputDelegate: AnyObject {
     @objc optional func animatedTextInputDidBeginEditing(animatedTextInput: AnimatedTextInput)
     @objc optional func animatedTextInputDidEndEditing(animatedTextInput: AnimatedTextInput)
     @objc optional func animatedTextInputDidChange(animatedTextInput: AnimatedTextInput)
@@ -71,7 +71,18 @@ open class AnimatedTextInput: UIControl {
     
     open var placeholderAlignment: CATextLayer.Alignment = .natural {
         didSet {
-            placeholderLayer.alignmentMode = CATextLayerAlignmentMode(string: String(describing: placeholderAlignment)) as String
+            switch placeholderAlignment {
+            case .natural:
+                placeholderLayer.alignmentMode = .natural
+            case .left:
+                placeholderLayer.alignmentMode = .left
+            case .right:
+                placeholderLayer.alignmentMode = .right
+            case .center:
+                placeholderLayer.alignmentMode = .center
+            case .justified:
+                placeholderLayer.alignmentMode = .justified
+            }
         }
     }
 
@@ -86,7 +97,11 @@ open class AnimatedTextInput: UIControl {
             return textInput.currentText
         }
         set {
-            (newValue != nil && !newValue!.isEmpty) ? configurePlaceholderAsInactiveHint() : configurePlaceholderAsDefault()
+            if let v = newValue, !v.isEmpty {
+                configurePlaceholderAsInactiveHint()
+            } else {
+                configurePlaceholderAsDefault()
+            }
             textInput.currentText = newValue
         }
     }
@@ -241,7 +256,7 @@ open class AnimatedTextInput: UIControl {
 
     override open var intrinsicContentSize: CGSize {
         let normalHeight = textInput.view.intrinsicContentSize.height
-        return CGSize(width: UIViewNoIntrinsicMetric, height: normalHeight + style.topMargin + style.bottomMargin)
+        return CGSize(width: UIView.noIntrinsicMetric, height: normalHeight + style.topMargin + style.bottomMargin)
     }
 
     open override func updateConstraints() {
@@ -605,7 +620,7 @@ public extension TextInput where Self: UIView {
     }
 }
 
-public protocol TextInputDelegate: class {
+public protocol TextInputDelegate: AnyObject {
     func textInputDidBeginEditing(textInput: TextInput)
     func textInputDidEndEditing(textInput: TextInput)
     func textInputDidChange(textInput: TextInput)
