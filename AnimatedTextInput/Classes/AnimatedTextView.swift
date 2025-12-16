@@ -13,9 +13,9 @@ final public class AnimatedTextView: UITextView {
         didSet {
             var attributes = typingAttributes
             if let f = font {
-                attributes[.font] = f
+                attributes[NSAttributedString.Key.font.rawValue] = f
             } else {
-                attributes.removeValue(forKey: .font)
+                attributes.removeValue(forKey: NSAttributedString.Key.font.rawValue)
             }
             typingAttributes = attributes
 //            textAttributes = Dictionary(uniqueKeysWithValues: attributes.lazy.map { ($0.key, $0.value)})

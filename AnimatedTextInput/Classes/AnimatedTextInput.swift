@@ -73,15 +73,15 @@ open class AnimatedTextInput: UIControl {
         didSet {
             switch placeholderAlignment {
             case .natural:
-                placeholderLayer.alignmentMode = .natural
+                placeholderLayer.alignmentMode = "natural"
             case .left:
-                placeholderLayer.alignmentMode = .left
+                placeholderLayer.alignmentMode = "left"
             case .right:
-                placeholderLayer.alignmentMode = .right
+                placeholderLayer.alignmentMode = "right"
             case .center:
-                placeholderLayer.alignmentMode = .center
+                placeholderLayer.alignmentMode = "center"
             case .justified:
-                placeholderLayer.alignmentMode = .justified
+                placeholderLayer.alignmentMode = "justified"
             }
         }
     }
@@ -256,7 +256,7 @@ open class AnimatedTextInput: UIControl {
 
     override open var intrinsicContentSize: CGSize {
         let normalHeight = textInput.view.intrinsicContentSize.height
-        return CGSize(width: UIView.noIntrinsicMetric, height: normalHeight + style.topMargin + style.bottomMargin)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: normalHeight + style.topMargin + style.bottomMargin)
     }
 
     open override func updateConstraints() {
